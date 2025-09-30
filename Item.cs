@@ -13,12 +13,20 @@ public class Item
 
 
     // 
-    public Item(string name, string description, string email, int id)
+    public Item(string name, string description, string email, int id) //constructor that takes name, description, email and id 
     {
         Name = name;
         Description = description;
         Email = email;
         Id = id;
+    }
+
+    public string ShowItem()
+    {
+        if (string.IsNullOrWhiteSpace(Description))         //check if description is either null, empty or whitespace
+            return $"{Name} (#{Id}) - owner: {Email}";      //return without description
+
+        return $"{Name} (#{Id}) - owner: {Email} - {Description}";          //returns with description
     }
 }
 

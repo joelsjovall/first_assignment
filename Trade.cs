@@ -8,19 +8,19 @@ namespace App;
 
 public class Trade
 {
-    public string SenderEmail;
-    public string RecieverEmail;
-    public int ItemId;
-    public string ItemName;
-    public string TradeStatus;
+    public string SenderEmail;          //who initiates the trade
+    public string ReceiverEmail;        //who recieves the traderequest
+    public int ItemId;      //every tradeable item should have an id
+    public string ItemName;     //every tradeable item needs to have a name 
+    public string Status;       // status of 
 
-    public Trade(string senderEmail, string recieverEmail, int itemId, string itemName, string tradeStatus)
+    public Trade(string senderEmail, string receiverEmail, int itemId, string itemName, string status)
     {
         SenderEmail = senderEmail;
-        RecieverEmail = recieverEmail;
+        ReceiverEmail = receiverEmail;
         ItemId = itemId;
         ItemName = itemName;
-        TradeStatus = tradeStatus;
+        Status = status;
     }
 }
 

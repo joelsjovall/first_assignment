@@ -8,7 +8,7 @@ using App;
 
 List<User> users = new List<User>();
 List<Item> items = new List<Item>();
-List<TradeRequest> tradeRequests = new List<TradeRequest>();
+List<Trade> trades = new List<Trade>();
 int nextTradeId = 1;
 int nextItemId = 1;
 
@@ -100,6 +100,7 @@ while (running)
                 Console.WriteLine("Item name: ");
                 string name = Console.ReadLine();
                 string ownerName = active_user.Email;
+                User owner = active_user;
 
                 Item newItem = new Item(name, ownerName, nextItemId++);
                 items.Add(newItem);
