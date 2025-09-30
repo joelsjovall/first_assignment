@@ -98,39 +98,33 @@ while (running)
             case "1": // Upload item for trade
                 Console.Clear();
                 Console.WriteLine("Item name: ");
-                string name = Console.ReadLine();
-                string ownerName = active_user.Email;
-                User owner = active_user;
+                string name = Console.ReadLine() ?? "";
 
-                Item newItem = new Item(name, ownerName, nextItemId++);
-                items.Add(newItem);
+                Console.WriteLine("Item description: ");
+                string description = Console.ReadLine() ?? "";
 
-                Console.WriteLine("Item succesfully added. ");
+                Item newItem = new Item(name, description, active_user.Email, nextItemId++);
+
+                active_user.Items.Add(newItem);
+
+                Console.WriteLine("Item added");
                 Console.ReadLine();
                 break;
-
 
             case "2": // Browse other peoples trades
                 Console.Clear();
                 Console.WriteLine("Other users tradeable items: ");
-
-                // for (int i = 0; i < items.Count; i++) // loop through every item stored in a shared list
-                // {
-                //     if (items[i].Email == active_user.Email) // skip the logged in users items in the list
-                //         continue;
-
-                //     Console.ReadLine();
-                //     Console.WriteLine("");
-
-                // }
-                foreach (Item item in Item)
+                foreach (User user in users)
                 {
-
+                    foreach (Item item in user.Items)
+                    {
+                        if (user.Items != active_user.Items)
+                        {
+                            Console.WriteLine(item.ShowItem());
+                        }
+                    }
                 }
-
-
-
-
+                Console.ReadLine();
                 break;
 
             case "3":
