@@ -2,7 +2,7 @@
 // Sender
 // Status
 // Items
-// recieveremail, itemid, itemname, tradestatus status
+// recieveremail, itemid, itemname, tradestatus status a 
 
 namespace App;
 
