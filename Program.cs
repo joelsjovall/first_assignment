@@ -96,7 +96,7 @@ while (running)
         string userInput = Console.ReadLine();          //reads the logged in users input
 
 
-        switch (userInput)
+        switch (userInput)          //choose which action to run based on the users input
         {
             case "1": // Upload item for trade
                 Console.Clear();
@@ -121,7 +121,7 @@ while (running)
                 {
                     foreach (Item item in user.Items)
                     {
-                        if (user.Items != active_user.Items)
+                        if (user.Items != active_user.Items)        //show items, but not the current logged in users items.
                         {
                             Console.WriteLine(item.ShowItem());
                         }
@@ -130,9 +130,25 @@ while (running)
                 Console.ReadLine();
                 break;
 
-            case "3":
+            case "3":       //The trade menu with options
                 Console.Clear();
-                Console.WriteLine("");
+                Console.WriteLine("----TRADE----");
+                Console.WriteLine("1. Browse the market for something to trade ");
+                Console.WriteLine("2. Incoming requests for your items ");
+                Console.WriteLine("3. My sent requests ");
+
+
+                switch (userInput)      //choose which action to run based on the users input
+                {
+                    case "1":       //Browse the market
+                        break;
+
+                    case "2":       //Show pending requests
+                        break;
+
+                    case "3":       //View logged in users traderequests
+                        break;
+                }
                 break;
 
             case "4": // Logout
@@ -144,6 +160,10 @@ while (running)
     }
 
 }
+
+
+
+// 
 
 
 
