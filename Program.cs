@@ -22,13 +22,14 @@ while (running)
 
     if (active_user == null)
     {
-        Console.WriteLine("TRADING"); //menyval för användaren: 
+        //Menu for the user 
+        Console.WriteLine("TRADING");
         Console.WriteLine("--------");
         Console.WriteLine("Choose one of the following");
         Console.WriteLine("--------");
         Console.WriteLine("1. Login");
         Console.WriteLine("2. Register a new account");
-        string userInput = Console.ReadLine(); // läser användarens menyval
+        string userInput = Console.ReadLine();          //reads the users input
 
         switch (userInput)
         {
@@ -36,30 +37,31 @@ while (running)
                 try { Console.Clear(); } catch { }
 
                 Console.WriteLine("Email: ");
-                string emailLogin = Console.ReadLine();
+                string emailLogin = Console.ReadLine();         //reads users email
 
                 try { Console.Clear(); } catch { }
 
                 Console.WriteLine("Password: ");
-                string passwordLogin = Console.ReadLine();
+                string passwordLogin = Console.ReadLine();      //reads users password
 
+                //search in the users list for matching email and password
                 User found = null;
-                for (int i = 0; i < users.Count; i++)
+                for (int i = 0; i < users.Count; i++)       //check each user 
                 {
                     if (users[i].Email == emailLogin && users[i].Password == passwordLogin)
                     {
                         found = users[i];
-                        break;
+                        break;      //stop searching after finding match
                     }
 
                 }
 
-                if (found == null)
+                if (found == null) // if the email or password is wrong, user won't be logged in
                 {
                     Console.WriteLine("Wrong email or password, try again");
                     Console.ReadLine();
                 }
-                else
+                else //if the email and password matches the users login credentials, log in
                 {
                     active_user = found;
                 }
@@ -83,29 +85,30 @@ while (running)
 
     }
     else
-    {
-        Console.WriteLine("Logged in as : " + active_user.Email);
+    {   //menu for logged in user
+        Console.WriteLine("Logged in as : " + active_user.Email);       //shows which user is logged in
         Console.WriteLine("Choose an option below: ");
         Console.WriteLine("1. Upload an item for trade ");
         Console.WriteLine("2. Browse others item for trade"); // if jag trycker på denna så ska jag kunna requesta deras items
-        Console.WriteLine("3. All offers for your items ");
+        Console.WriteLine("3. Trade ");
         Console.WriteLine("4. Logout current user ");
 
-        string userInput = Console.ReadLine();
+        string userInput = Console.ReadLine();          //reads the logged in users input
+
 
         switch (userInput)
         {
             case "1": // Upload item for trade
                 Console.Clear();
                 Console.WriteLine("Item name: ");
-                string name = Console.ReadLine() ?? "";
+                string name = Console.ReadLine();
 
                 Console.WriteLine("Item description: ");
-                string description = Console.ReadLine() ?? "";
+                string description = Console.ReadLine();
 
-                Item newItem = new Item(name, description, active_user.Email, nextItemId++);
+                Item newItem = new Item(name, description, active_user.Email, nextItemId++);        //creates item with a new id
 
-                active_user.Items.Add(newItem);
+                active_user.Items.Add(newItem);         //stores this new item in the logged in users item list 
 
                 Console.WriteLine("Item added");
                 Console.ReadLine();
@@ -141,13 +144,6 @@ while (running)
     }
 
 }
-
-
-
-// void p(string input)
-// {
-//     Console.WriteLine(input);
-// }
 
 
 
