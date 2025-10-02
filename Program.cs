@@ -192,8 +192,11 @@ while (running)
                             Console.ReadLine();
                             break;
                         }
-                        Item Chosen = market[choice - 1];
-                        ;
+                        Item chosen = market[choice - 1];
+
+                        trades.Add(new Trade(active_user.Email, chosen.Email, chosen.Id, chosen.Name, "Pending"));
+                        Console.WriteLine("Trade request sent to " + chosen.Email + " for " + chosen.Name + ". Let's hope they accept!");
+                        Console.Read();
 
 
 
