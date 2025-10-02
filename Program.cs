@@ -29,6 +29,7 @@ while (running)
         Console.WriteLine("--------");
         Console.WriteLine("1. Login");
         Console.WriteLine("2. Register a new account");
+        Console.WriteLine("3. Exit");
         string userInput = Console.ReadLine();          //reads the users input
 
         switch (userInput)
@@ -80,6 +81,10 @@ while (running)
 
                 Console.WriteLine("Account was created.");
                 Console.ReadLine();
+                break;
+
+            case "3":       //simple code that exits the program
+                running = false;
                 break;
         }
 
@@ -136,17 +141,79 @@ while (running)
                 Console.WriteLine("1. Browse the market for something to trade ");
                 Console.WriteLine("2. Incoming requests for your items ");
                 Console.WriteLine("3. My sent requests ");
+                Console.WriteLine("4. Your items available for trade");
+                Console.WriteLine("5. Go back to main menu ");
+
+                string tradeInput = Console.ReadLine();
 
 
-                switch (userInput)      //choose which action to run based on the users input
+                switch (tradeInput)      //choose which action to run based on the users input
                 {
                     case "1":       //Browse the market
+                        Console.Clear();
+                        Console.WriteLine("Other users tradeable items: \n");       // /n to make content drop down to next line
+
+                        List<Item> market = new List<Item>();       //all items from other users
+
+                        // int printed = 0;
+
+                        foreach (User user in users)
+                        {
+                            if (user == active_user)
+                                continue;
+
+                            foreach (Item item in user.Items)       //for every 
+                            {
+                                market.Add(item);       //add item
+                                Console.WriteLine(market.Count + ". " + item.ShowItem());            //
+                            }
+
+                        }
+
+                        if (market.Count == 0)          //if theres 0 items available
+                        {
+                            Console.WriteLine("No items available for trade");
+                            Console.ReadLine();
+                            break;
+                        }
+
+                        Console.WriteLine("Request an item by entering a number, or go back by pressing enter ");
+                        string pick = Console.ReadLine();       //pick the typed number
+                        if (string.IsNullOrWhiteSpace(pick))        //go back if user pressed enter
+                        {
+                            break;
+                        }
+
+                        int choice;         //holds users choice (number)
+                        //
+                        if (!int.TryParse(pick, out choice) || choice < 1 || choice > market.Count)
+                        {
+                            Console.WriteLine("Invalid choice. ");          //tell that to the user
+                            Console.ReadLine();
+                            break;
+                        }
+                        Item Chosen = market[choice - 1];
+                        ;
+
+
+
+
+
+
+
+
+
+
                         break;
 
                     case "2":       //Show pending requests
                         break;
 
                     case "3":       //View logged in users traderequests
+                        break;
+                    case "4":       //see your items
+                        break;
+                    case "5":       //go back 
                         break;
                 }
                 break;
