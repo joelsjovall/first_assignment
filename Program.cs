@@ -194,42 +194,42 @@ while (running)
                         }
                         Item chosen = market[choice - 1];
 
+                        //create and store a new trade request: 
                         trades.Add(new Trade(active_user.Email, chosen.Email, chosen.Id, chosen.Name, "Pending"));
-                        Console.WriteLine("Trade request sent to " + chosen.Email + " for " + chosen.Name + ". Let's hope they accept!");
+                        Console.WriteLine("Trade request sent to " + chosen.Email + " for " + chosen.Name + ". Let's hope they accept!");           //confirmationtext to the user 
                         Console.Read();
-
-
-
-
-
-
-
-
-
-
                         break;
 
-                    case "2":       //Show pending requests
-                        break;
+                    case "2":       //Show pending requests, accept or deny traderequest
+                        Console.Clear();
+                        Console.WriteLine("All requests for your items: \n");
+
+                        List<Trade> incomingTrades = new List<Trade>();         //list that will hold matching trades
+                        foreach (Trade t in trades)
+                        {
+
+
+
+                            break;
 
                     case "3":       //View logged in users traderequests
-                        break;
-                    case "4":       //see your items
-                        break;
-                    case "5":       //go back 
-                        break;
-                }
-                break;
+                                break;
+                            case "4":       //see your items
+                                break;
+                            case "5":       //go back 
+                                break;
+                            }
+                            break;
 
             case "4": // Logout
-                active_user = null;
-                break;
+                                active_user = null;
+                                break;
 
-        }
+                            }
 
-    }
+                        }
 
-}
+                }
 
 
 
