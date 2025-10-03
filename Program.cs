@@ -23,13 +23,15 @@ while (running)
     if (active_user == null)
     {
         //Menu for the user 
-        Console.WriteLine("TRADING");
-        Console.WriteLine("--------");
-        Console.WriteLine("Choose one of the following");
-        Console.WriteLine("--------");
-        Console.WriteLine("1. Login");
-        Console.WriteLine("2. Register a new account");
-        Console.WriteLine("3. Exit");
+        Console.WriteLine(" ---------------------------");
+        Console.WriteLine("|----------TRADING----------|");
+        Console.WriteLine("|---------------------------|");
+        Console.WriteLine("|Choose one of the following|");
+        Console.WriteLine("|---------------------------|");
+        Console.WriteLine("|-------1. Login------------|");
+        Console.WriteLine("|-2. Register a new account-|");
+        Console.WriteLine("|-------3. Exit-------------|");
+        Console.WriteLine(" ---------------------------");
         string userInput = Console.ReadLine();          //reads the users input
 
         switch (userInput)
@@ -94,8 +96,8 @@ while (running)
         Console.WriteLine("Logged in as : " + active_user.Email);       //shows which user is logged in
         Console.WriteLine("Choose an option below: ");
         Console.WriteLine("1. Upload an item for trade ");
-        Console.WriteLine("2. Browse others item for trade"); // if jag trycker på denna så ska jag kunna requesta deras items
-        Console.WriteLine("3. Trade ");
+        Console.WriteLine("2. Browse others item"); // if jag trycker på denna så ska jag kunna requesta deras items
+        Console.WriteLine("3. Trademarket ");
         Console.WriteLine("4. Logout current user ");
 
         string userInput = Console.ReadLine();          //reads the logged in users input
@@ -121,7 +123,7 @@ while (running)
 
             case "2": // Browse other peoples trades
                 Console.Clear();
-                Console.WriteLine("Other users tradeable items: ");
+                Console.WriteLine("List of other users tradeable items, if you with to trade, enter the trademarket ");
                 foreach (User user in users)
                 {
                     foreach (Item item in user.Items)
@@ -137,12 +139,13 @@ while (running)
 
             case "3":       //The trade menu with options
                 Console.Clear();
-                Console.WriteLine("----TRADE----");
+                Console.WriteLine("----TRADEMARKET----");
                 Console.WriteLine("1. Browse the market for something to trade ");
                 Console.WriteLine("2. Incoming requests for your items ");
                 Console.WriteLine("3. My sent requests ");
                 Console.WriteLine("4. Your items available for trade");
                 Console.WriteLine("5. Go back to main menu ");
+                Console.WriteLine("--------------------");
 
                 string tradeInput = Console.ReadLine();
 
@@ -197,7 +200,7 @@ while (running)
                         //create and store a new trade request: 
                         trades.Add(new Trade(active_user.Email, chosen.Email, chosen.Id, chosen.Name, "Pending"));
                         Console.WriteLine("Trade request sent to " + chosen.Email + " for " + chosen.Name + ". Let's hope they accept!");           //confirmationtext to the user 
-                        Console.Read();
+                        Console.ReadLine();
                         break;
 
                     case "2":       //Show pending requests, accept or deny traderequest
@@ -205,31 +208,125 @@ while (running)
                         Console.WriteLine("All requests for your items: \n");
 
                         List<Trade> incomingTrades = new List<Trade>();         //list that will hold matching trades
-                        foreach (Trade t in trades)
+                        foreach (Trade trade in trades)
                         {
-
-
-
-                            break;
-
-                    case "3":       //View logged in users traderequests
-                                break;
-                            case "4":       //see your items
-                                break;
-                            case "5":       //go back 
-                                break;
-                            }
-                            break;
-
-            case "4": // Logout
-                                active_user = null;
-                                break;
-
+                            if (trade.ReceiverEmail == active_user.Email)
+                            {
+                                incomingTrades.Add(trade);
                             }
 
                         }
 
+                        if (incomingTrades.Count == 0)          //if there are no requests for logged in users items
+                        {
+                            Console.WriteLine("You have no traderequests");
+                            Console.ReadLine();
+                            break;
+                        }
+
+                        //prints a numbered list of requests
+                        for (int i = 0; i < incomingTrades.Count; i++)
+                        {
+                            Trade current = incomingTrades[i];
+                            Console.WriteLine((i + 1) + ". From: " + current.SenderEmail); //print row number and who sent request
+                            Console.WriteLine("Item: " + current.ItemName + "(#" + current.ItemId + ")"); //print item name and id 
+                            Console.WriteLine("Status: " + current.Status);         //print current status
+
+                        }
+
+                        //user picks a trade to respond to, or presses enter to go back
+                        Console.WriteLine("Enter a number to respond");
+                        string pickIncoming = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(pickIncoming))
+                        {
+                            break;
+                        }
+
+                        int choiceIncoming;
+                        if (!int.TryParse(pickIncoming, out choiceIncoming) || choiceIncoming < 1 || choiceIncoming > incomingTrades.Count)
+                        {
+                            Console.WriteLine("Invalid choice");
+                            Console.ReadLine();
+                            break;
+                        }
+
+                        Trade selected = incomingTrades[choiceIncoming - 1];
+                        //
+                        Console.WriteLine("Accept (A) or deny (D) this request? ");
+                        string decision = Console.ReadLine();
+                        if (decision != null)
+                        {
+                            decision = decision.Trim().ToUpperInvariant();
+                            if (decision == "A")
+                            {
+                                selected.Status = "Accepted";
+                            }
+                            else if (decision == "D")
+                            {
+                                selected.Status = "Denied";
+                            }
+                            else
+                            {
+                                Console.WriteLine("You didnt Accept or Deny, no change was made");
+                            }
+
+                        }
+                        Console.WriteLine("Status: " + selected.Status);
+                        Console.ReadLine();
+                        break;
+
+                    case "3":       //View logged in users traderequests
+                        Console.Clear();
+                        Console.WriteLine("Trade request that you've sent");
+
+                        //List of my sent request
+                        List<Trade> mySent = new List<Trade>();
+                        foreach (Trade trade in trades)
+                        {
+                            if (trade.SenderEmail == active_user.Email)
+                            {
+                                mySent.Add(trade);
+                            }
+                        }
+
+
+                        if (mySent.Count == 0)
+                        {
+                            Console.WriteLine("You have haeven't sent any trade requests yet.");
+                            Console.ReadLine();
+                            break;
+                        }
+
+                        for (int i = 0; i < mySent.Count; i++)
+                        {
+                            Trade current = mySent[i];
+                            Console.WriteLine((i + 1) + " To: " + current.ReceiverEmail);
+                            Console.WriteLine(" Item: " + current.ItemName + "(#" + current.ItemId + ")");
+                            Console.WriteLine(" Status: " + current.Status);
+                            Console.WriteLine();
+                        }
+
+                        Console.WriteLine("Press enter to go back");
+                        Console.ReadLine();
+                        break;
+
+
+                    case "4":       //see users items available for trade
+                        break;
+                    case "5":       //go back 
+                        break;
                 }
+                break;
+
+            case "4": // Logout
+                active_user = null;
+                break;
+
+        }
+
+    }
+
+}
 
 
 
