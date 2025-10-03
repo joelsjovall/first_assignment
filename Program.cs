@@ -333,11 +333,47 @@ while (running)
                         Console.ReadLine();
                         break;
 
-
-
-
-                    case "5":       //go back 
+                    case "5":       //go back to main menu
                         break;
+
+                    case "6":       // browse completed requests
+                        Console.Clear();
+                        Console.WriteLine("Browse completed requests ");
+
+                        List<Trade> myCompReq = new List<Trade>();
+                        foreach (Trade trade in trades)
+                        {
+                            if (trade.SenderEmail == active_user.Email && trade.Status != "Pending") ;
+                            {
+                                myCompReq.Add(trade);
+                            }
+                        }
+
+                        if (myCompReq.Count > 0)
+                        {
+                            Console.WriteLine("Your completed sent requests");
+                            for (int i = 0; i < myCompReq.Count; i++)
+                            {
+                                Trade current = myCompReq[i];
+                                Console.WriteLine((i + 1) + ". To " + current.ReceiverEmail);
+                                Console.WriteLine("Item: " + current.ItemName + " (#" + current.ItemId + ")");
+                                Console.WriteLine("Status: " + current.Status);
+                                Console.WriteLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("You have no completed sent requests");
+                        }
+
+                        List<Trade> myCompInc = new List<Trade>();
+                        foreach (Trade trade in trades)
+                        {
+                            if (trade.Reciever)
+                        }
+
+                        break;
+
                 }
                 break;
 
