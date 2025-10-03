@@ -311,7 +311,16 @@ while (running)
                         break;
 
 
-                    case "4":       //see users items available for trade
+                    case "4":       //see logged in users items available for trade
+                        Console.Clear();
+                        Console.WriteLine("Your items available for trade");
+
+                        if (active_user.Items.Count + == 0)
+                        {
+                            Console.WriteLine("You have no items, add some from the main menu");
+                            Console.ReadLine();
+                            break;
+                        }
                         break;
                     case "5":       //go back 
                         break;
