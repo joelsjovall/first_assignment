@@ -315,13 +315,27 @@ while (running)
                         Console.Clear();
                         Console.WriteLine("Your items available for trade");
 
-                        if (active_user.Items.Count + == 0)
+                        if (active_user.Items.Count == 0)
                         {
                             Console.WriteLine("You have no items, add some from the main menu");
                             Console.ReadLine();
                             break;
                         }
+
+                        //list of users items with numbers 
+                        for (int i = 0; i < active_user.Items.Count; i++)
+                        {
+                            Item item = active_user.Items[i];
+                            Console.WriteLine((i + 1) + ". " + item.ShowItem());
+                        }
+
+                        Console.WriteLine("Press enter to go back");
+                        Console.ReadLine();
                         break;
+
+
+
+
                     case "5":       //go back 
                         break;
                 }
