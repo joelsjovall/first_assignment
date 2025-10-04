@@ -21,35 +21,3 @@
 // // Ni ska kunna svara på “Varför?” gällande er kod.
 
 // //se det som steam trading 
-
-
-
-// // ingen information behöver lagras 
-// // lista av items som ska tradeas
-
-// // 
-
-// using App;
-
-// void SeeAvailableItems()
-// {
-//     System.Console.WriteLine();
-//     System.Console.WriteLine();
-//     return;
-
-// }
-
-// foreach (Item item in Items)
-// {
-
-// }
-
-
-
-
-
-
-
-
-
-// 

@@ -96,7 +96,7 @@ while (running)
         Console.WriteLine("Logged in as : " + active_user.Email);       //shows which user is logged in
         Console.WriteLine("Choose an option below: ");
         Console.WriteLine("1. Upload an item for trade ");
-        Console.WriteLine("2. Browse others item"); // if jag trycker på denna så ska jag kunna requesta deras items
+        Console.WriteLine("2. Browse others item");
         Console.WriteLine("3. Trademarket ");
         Console.WriteLine("4. Logout current user ");
 
@@ -123,7 +123,7 @@ while (running)
 
             case "2": // Browse other peoples trades
                 Console.Clear();
-                Console.WriteLine("List of other users tradeable items, if you with to trade, enter the trademarket ");
+                Console.WriteLine("List of other users tradeable items, if you wish to trade, enter the trademarket ");
                 foreach (User user in users)
                 {
                     foreach (Item item in user.Items)
@@ -145,13 +145,14 @@ while (running)
                 Console.WriteLine("3. My sent requests ");
                 Console.WriteLine("4. Your items available for trade");
                 Console.WriteLine("5. Go back to main menu ");
-                Console.WriteLine("--------------------");
+                Console.WriteLine("6. All completed requests");
 
                 string tradeInput = Console.ReadLine();
 
 
                 switch (tradeInput)      //choose which action to run based on the users input
                 {
+
                     case "1":       //Browse the market
                         Console.Clear();
                         Console.WriteLine("Other users tradeable items: \n");       // /n to make content drop down to next line
@@ -260,6 +261,40 @@ while (running)
                             if (decision == "A")
                             {
                                 selected.Status = "Accepted";
+                                User receiverUser = active_user;
+                                User senderUser = null;
+
+                                for (int i = 0; i < users.Count; i++)
+                                {
+                                    if (users[i].Email == selected.SenderEmail)
+                                    {
+                                        senderUser = users[i];
+                                        break;
+                                    }
+                                }
+
+                                int removeIndex = -1;
+                                for (int i = 0; i < receiverUser.Items.Count; i++)
+                                {
+                                    if (receiverUser.Items[i].Id == selected.ItemId)
+                                    {
+                                        removeIndex = i;
+                                        break;
+                                    }
+
+                                }
+
+                                //transfer ownership of item
+                                Item itemToMove = receiverUser.Items[removeIndex];
+                                receiverUser.Items.RemoveAt(removeIndex);
+                                itemToMove.Email = senderUser.Email;
+                                senderUser.Items.Add(itemToMove);
+
+                                Console.WriteLine("Item transferred");
+
+
+
+
                             }
                             else if (decision == "D")
                             {
@@ -267,7 +302,7 @@ while (running)
                             }
                             else
                             {
-                                Console.WriteLine("You didnt Accept or Deny, no change was made");
+                                Console.WriteLine("You didnt Accept or Deny, therefore nothing happened");
                             }
 
                         }
@@ -338,40 +373,32 @@ while (running)
 
                     case "6":       // browse completed requests
                         Console.Clear();
-                        Console.WriteLine("Browse completed requests ");
+                        Console.WriteLine("All users completed requests");
 
-                        List<Trade> myCompReq = new List<Trade>();
-                        foreach (Trade trade in trades)
+                        int shown = 0;
+                        for (int i = 0; i < trades.Count; i++)
                         {
-                            if (trade.SenderEmail == active_user.Email && trade.Status != "Pending") ;
-                            {
-                                myCompReq.Add(trade);
-                            }
-                        }
+                            Trade currentTrade = trades[i];
 
-                        if (myCompReq.Count > 0)
-                        {
-                            Console.WriteLine("Your completed sent requests");
-                            for (int i = 0; i < myCompReq.Count; i++)
+                            if (currentTrade.Status != "Pending") ;
                             {
-                                Trade current = myCompReq[i];
-                                Console.WriteLine((i + 1) + ". To " + current.ReceiverEmail);
-                                Console.WriteLine("Item: " + current.ItemName + " (#" + current.ItemId + ")");
-                                Console.WriteLine("Status: " + current.Status);
+                                shown++;
+                                Console.WriteLine(shown + ". From: " + currentTrade.SenderEmail);
+                                Console.WriteLine("To : " + currentTrade.ReceiverEmail);
+                                Console.WriteLine("item: " + currentTrade.ItemName + " (#" + currentTrade.ItemId + ")");
+                                Console.WriteLine("Status: " + currentTrade.Status);
                                 Console.WriteLine();
                             }
-                        }
-                        else
-                        {
-                            Console.WriteLine("You have no completed sent requests");
+
                         }
 
-                        List<Trade> myCompInc = new List<Trade>();
-                        foreach (Trade trade in trades)
+                        if (shown == 0)
                         {
-                            if (trade.Reciever)
+                            Console.WriteLine("No completed requests... yet ");
                         }
 
+                        Console.WriteLine("Press enter to go back");
+                        Console.ReadLine();
                         break;
 
                 }
