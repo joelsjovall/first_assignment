@@ -1,6 +1,9 @@
-How to run - dotnet run in the project folder in git bash terminal
+This trading system is written in c# and allows users to trade items with other users, in order to run this program you need git installed and configured.
+How to run:
 
-How to use
+Dotnet run in the project folder in git bash terminal
+
+How to use:
 
 Main menu
 
