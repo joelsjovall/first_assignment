@@ -251,8 +251,8 @@ while (running)
                             break;
                         }
 
-                        Trade selected = incomingTrades[choiceIncoming - 1];
-                        //
+                        Trade selected = incomingTrades[choiceIncoming - 1];        //convert the 1 baased choice to a 0-based index
+                        //ask reciever if they wish to accept or deny the request
                         Console.WriteLine("Accept (A) or deny (D) this request? ");
                         string decision = Console.ReadLine();
                         if (decision != null)
@@ -260,26 +260,26 @@ while (running)
                             decision = decision.Trim().ToUpperInvariant();
                             if (decision == "A")
                             {
-                                selected.Status = "Accepted";
-                                User receiverUser = active_user;
-                                User senderUser = null;
+                                selected.Status = "Accepted";       //trade accepted
+                                User receiverUser = active_user;        //logged in user is the reciever
 
+                                User senderUser = null;         // find the person who requested the trade
                                 for (int i = 0; i < users.Count; i++)
                                 {
                                     if (users[i].Email == selected.SenderEmail)
                                     {
                                         senderUser = users[i];
-                                        break;
+                                        break;          //stop when we find sender 
                                     }
                                 }
-
+                                //find the index of item by ID in the recievers item list
                                 int removeIndex = -1;
                                 for (int i = 0; i < receiverUser.Items.Count; i++)
                                 {
                                     if (receiverUser.Items[i].Id == selected.ItemId)
                                     {
                                         removeIndex = i;
-                                        break;
+                                        break;          //stop when item has been found
                                     }
 
                                 }
@@ -316,28 +316,28 @@ while (running)
 
                         //List of my sent request
                         List<Trade> mySent = new List<Trade>();
-                        foreach (Trade trade in trades)
+                        foreach (Trade trade in trades)         //scan all trades
                         {
-                            if (trade.SenderEmail == active_user.Email)
+                            if (trade.SenderEmail == active_user.Email)         //keep the ones i sent 
                             {
-                                mySent.Add(trade);
+                                mySent.Add(trade);          //collect into mySent
                             }
                         }
 
-
+                        //if none, tell user to return to main menu
                         if (mySent.Count == 0)
                         {
                             Console.WriteLine("You have haeven't sent any trade requests yet.");
                             Console.ReadLine();
                             break;
                         }
-
+                        //print numbered list of trades user sent 
                         for (int i = 0; i < mySent.Count; i++)
                         {
                             Trade current = mySent[i];
-                            Console.WriteLine((i + 1) + " To: " + current.ReceiverEmail);
-                            Console.WriteLine(" Item: " + current.ItemName + "(#" + current.ItemId + ")");
-                            Console.WriteLine(" Status: " + current.Status);
+                            Console.WriteLine((i + 1) + " To: " + current.ReceiverEmail);       //who i sent it to
+                            Console.WriteLine(" Item: " + current.ItemName + "(#" + current.ItemId + ")");  //users itemname and id
+                            Console.WriteLine(" Status: " + current.Status);    //status(pending,accepted,denied)
                             Console.WriteLine();
                         }
 
@@ -350,7 +350,7 @@ while (running)
                         Console.Clear();
                         Console.WriteLine("Your items available for trade");
 
-                        if (active_user.Items.Count == 0)
+                        if (active_user.Items.Count == 0)       //if user has no items, inform and return
                         {
                             Console.WriteLine("You have no items, add some from the main menu");
                             Console.ReadLine();
@@ -361,7 +361,7 @@ while (running)
                         for (int i = 0; i < active_user.Items.Count; i++)
                         {
                             Item item = active_user.Items[i];
-                            Console.WriteLine((i + 1) + ". " + item.ShowItem());
+                            Console.WriteLine((i + 1) + ". " + item.ShowItem());    //name, owner, description
                         }
 
                         Console.WriteLine("Press enter to go back");
@@ -371,27 +371,27 @@ while (running)
                     case "5":       //go back to main menu
                         break;
 
-                    case "6":       // browse completed requests
+                    case "6":       // browse all completed requests 
                         Console.Clear();
                         Console.WriteLine("All users completed requests");
 
-                        int shown = 0;
-                        for (int i = 0; i < trades.Count; i++)
+                        int shown = 0;      //how many trades 
+                        for (int i = 0; i < trades.Count; i++)          //scan all trades
                         {
                             Trade currentTrade = trades[i];
 
-                            if (currentTrade.Status != "Pending") ;
+                            if (currentTrade.Status != "Pending")       //show accepted/denied
                             {
-                                shown++;
-                                Console.WriteLine(shown + ". From: " + currentTrade.SenderEmail);
-                                Console.WriteLine("To : " + currentTrade.ReceiverEmail);
-                                Console.WriteLine("item: " + currentTrade.ItemName + " (#" + currentTrade.ItemId + ")");
-                                Console.WriteLine("Status: " + currentTrade.Status);
+                                shown++;            //increase the printed counter
+                                Console.WriteLine(shown + ". From: " + currentTrade.SenderEmail);       //sender
+                                Console.WriteLine("To : " + currentTrade.ReceiverEmail);        //reciever
+                                Console.WriteLine("item: " + currentTrade.ItemName + " (#" + currentTrade.ItemId + ")");  //item details
+                                Console.WriteLine("Status: " + currentTrade.Status);        //status ( denied, accepted )
                                 Console.WriteLine();
                             }
 
                         }
-
+                        //if nothing was printed, inform user
                         if (shown == 0)
                         {
                             Console.WriteLine("No completed requests... yet ");
